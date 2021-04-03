@@ -4,6 +4,7 @@
 - Why: motivation
 - What: requirements
 - How
+- Dev Log
 - Thoughts
 
 ## Getting started
@@ -108,3 +109,15 @@ I probably won't do them, but there should be some tests checking errors if user
 
 One Db image for dev & tests?
 Or one db image for dev, and another for tests?
+
+## Dev Log
+
+### Log: 1
+
+First issue that made me lose some time, was a seemingly infinite restart of nodemon. The culprit was this line in the `nodemon.json` file:
+
+```
+    "ts": "nodemon --inspect=0.0.0.0:9229 --nolazy -r ts-node/register"
+```
+
+I typed `nodemon` instead of `node` ...

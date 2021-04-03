@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/wefox/api/src
+      - ./nodemon.json:/wefox/api/nodemon.json
+    container_name: api
+    expose:
+      - '3000'
+    ports: 
+      - '3000:3000'
+    command: npm run dev

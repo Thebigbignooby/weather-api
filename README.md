@@ -121,3 +121,41 @@ First issue that made me lose some time, was a seemingly infinite restart of nod
 ```
 
 I typed `nodemon` instead of `node` ...
+
+### Log: 2
+
+When trying to build the node.js docker image, the build failed.
+
+I hadn't started Docker -_-
+
+### Log: 3
+
+Running `docker-compose up` gave me an error instead of a running api :(
+
+```sh
+$ docker-compose up
+Creating network "wefox_default" with the default driver
+Creating api ... error
+
+ERROR: for api  Cannot create container for service api: invalid volume specification: '/run/desktop/mnt/host/c/Users/Rory/dev/TECHNICAL-TESTS/wefox/src:wefox/api/src:rw': invalid mount config for type "bind": invalid mount path: 'wefox/api/src' mount path must be absolute                     op/mnt/host/c/Users/Rory/dev/TECHNICAL-TESTS/wefox/src:wefox/api/src:rw': invalid mount config for ty
+
+ERROR: for api  Cannot create container for service api: invalid volume specification: '/run/desktop/mnt/host/c/Users/Rory/dev/TECHNICAL-TESTS/wefox/src:wefox/api/src:rw': invalid mount config forop/mnt/host/c/Users/Rory/dev/TECHNICAL-TESTS/wefox/src:wefox/api/src:rw': invalid mount config for ty type "bind": invalid mount path: 'wefox/api/src' mount path must be absolute
+ERROR: Encountered errors while bringing up the project.
+```
+
+My initial search lead me to believe that this was maybe related to the fact that I was on Windows.
+However, I went through my `docker-compose.yml` file slowly and tried adding a `/` to a path for the volumes:
+
+From this
+
+```yml
+    volumes:
+      - ./src:wefox/api/src
+```
+
+To this
+
+```yml
+    volumes:
+      - ./src:/wefox/api/src
+```

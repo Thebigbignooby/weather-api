@@ -1,6 +1,6 @@
 FROM node:15.13.0-alpine3.13 as base
 
-WORKDIR /wefox/api
+WORKDIR /api
 
 COPY package.json ./
 

@@ -1,0 +1,11 @@
+{
+  "name": "project-api-42",
+  "version": "0.0.0",
+  "description": "a location and weather api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rory Dent <rory@rock-n-node.com> (https://github.com/Thebigbignooby/)",
+  "license": "MIT"
+}

@@ -77,6 +77,9 @@ Which are need to have, which are nice to have?
 #### It works
 
 - authentication
+  - create user
+  - delete user
+  - update user
   - user exists
   - user doesn't exist
 - check address

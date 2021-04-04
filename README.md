@@ -110,6 +110,8 @@ I probably won't do them, but there should be some tests checking errors if user
 One Db image for dev & tests?
 Or one db image for dev, and another for tests?
 
+update: silly me. It's one MongoDB image in which we create a test db and a dev db.
+
 ## Dev Log
 
 ### Log: 1

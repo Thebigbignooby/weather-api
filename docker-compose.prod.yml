@@ -4,4 +4,4 @@ services:
   api:
     build:
       target: production
-    command: npm run start
+    command: node build/index.js

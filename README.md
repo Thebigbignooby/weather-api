@@ -161,3 +161,16 @@ To this
     volumes:
       - ./src:/wefox/api/src
 ```
+
+### Log: 4
+
+I noticed my server wasn't restarting when I edited files.
+
+After much digging around, it looks like it's an issue related to the fact that docker containers run in wsl on windows, so I had to add the `-L` flag tot he nodemon command.
+
+My `package.json` file now looks like this:
+
+```
+    "dev": "nodemon src/index.ts",
+    "dev-with-docker": "nodemon -L src/index.ts",
+```

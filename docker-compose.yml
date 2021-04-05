@@ -16,7 +16,7 @@ services:
       - '3000:3000'
     links:
       - mongodb
-    command: npm run dev
+    command: npm run dev-with-docker
 
   mongodb:
     image: mongo:4.0.23-xenial

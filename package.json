@@ -7,6 +7,7 @@
     "start": "NODE_PATH=./build node build/index.js",
     "build": "tsc -p .",
     "dev": "nodemon src/index.ts",
+    "dev-with-docker": "nodemon -L src/index.ts",
     "test": "jest"
   },
   "author": "Rory Dent <rory@rock-n-node.com> (https://github.com/Thebigbignooby/)",

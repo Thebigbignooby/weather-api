@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: weather API
+  version: '1.0'
+  description: some placerholder description text for now because this is the first time I'm using stoplight
+  contact:
+    name: Rory
+    email: rory@rock-n-node.com
+    url: 'https://github.com/Thebigbignooby/weather-api'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /auth/signup:
+    post:
+      summary: User Registration
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      operationId: post-auth-signup
+      description: some description
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+  /auth/signin:
+    post:
+      summary: sign in
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JSON webtoken
+                required:
+                  - token
+        '403':
+          description: Forbidden
+      operationId: post-auth-signin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  description: Password
+              required:
+                - email
+                - password
+      description: this is where the user will sign in with email and password and get a JWT in response
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 606b8d76c5ac3600d205d0bb
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given user.
+          format: uuid
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - email
+  securitySchemes:
+    API Key - 1:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: token url sis
+          refreshUrl: refresh url bro
+          scopes: {}
+      description: exploring what all these fields are

@@ -15,20 +15,29 @@ services:
     ports: 
       - '3000:3000'
     links:
-      - mongodb
-    command: npm run dev-with-docker
+      - mongodb:mongo
+    command: npm run dev-with-docker-2
 
   mongodb:
     image: mongo:4.0.23-xenial
+    restart: always
     ports:
       - 27017:27017
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: admin
+    #   MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
+      - ./db/docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - data:/data/db
-  
+
   mongo-express:
     image: mongo-express:0.54.0
+    restart: always
     ports:
       - 8081:8081
+    # environment:
+    #   ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+    #   ME_CONFIG_MONGODB_ADMINPASSWORD: password
     links:
       - mongodb:mongo
 

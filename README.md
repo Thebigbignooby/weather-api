@@ -174,3 +174,48 @@ My `package.json` file now looks like this:
     "dev": "nodemon src/index.ts",
     "dev-with-docker": "nodemon -L src/index.ts",
 ```
+
+### Log: 5
+
+I was going to use Mongoose, but I just discovered Typegoose, so I think I will give that a try.
+
+Installing Typegoose errored out because it uses a different version of Mongoose as a peer depency from the one I had already installed.
+So I locked the correct version in place and continued.
+
+Then, while trying to initiate the connection to mongodb in the node.js app, I first got a first message about some deprecated connection options, and once those were addressed I get an `Error connecting to database: MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017` :'(
+
+As I had managed to launch a mongo-express container which could connect to the MongoDB container, I was quite puzzled.
+
+After a little hunting around, I found a blog post which pointed out to replace `localhost` with `mongo` in the dbConnectionString in my `db.ts` file.
+
+from 
+
+```
+const DB_CONNECTION_STRING = `mongodb://localhost:27017/${DB_ENV}` 
+```
+to
+```
+const DB_CONNECTION_STRING = `mongodb://mongo:27017/${DB_ENV}` 
+```
+
+### Log: 6
+
+Scratching my head about how to handle the test environment, especially relating to my setup with Docker.
+
+As I'm still new to using docker, I decided, perhaps wrongly, to initialise mongodb with 3 databases on image creation using a setup script.
+To do this, I created a `mongo-init.js` script inside a folder named `docker-entrypoint-initdb.d`.
+
+Upon relaunching my containers to try this out, TypeScript was insulting me because of `req.user = user` and it turns out one has to extend the Express types explicitly to do this kind of stuff.
+
+I managed to fix this because intellisense in VSCode was no longer yelling at me, but my nodemon server inside docker was still crashing.
+While searching for a solution, I discovered `ts-node-dev` and decided to use that instead of nodemon.
+
+Environnment variables:
+
+Obviously, they should be managed properly.
+
+I wonder if there's a way to swap them without restarting the containers...
+
+Usually, I use a .env file and then manage environnment variables manually on a managed hosting service like heroku.
+I'm not certain of the best way to do this when using containers. I have come accross the notion of Docker Secrets but would need more time to explore this solution.
+Right now, I'm eager to get on with actual development, so i'll pause the project setup for now and make do with just using "dev".

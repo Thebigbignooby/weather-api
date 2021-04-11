@@ -1,0 +1,30 @@
+# SIGNUP
+POST http://localhost:3000/auth/signup
+content-type: application/json
+
+{
+    "email": "john.doe@example.com",
+    "password": "123"
+}
+
+
+###
+
+# SIGNIN
+POST http://localhost:3000/auth/signin
+content-type: application/json
+
+{
+    "email": "john.doe@example.com",
+    "password": "123"
+}
+
+###
+
+# REFRESH TOKEN
+POST http://localhost:3000/auth/token
+content-type: application/json
+
+{
+    "token": "sample"
+}

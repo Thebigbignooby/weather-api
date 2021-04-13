@@ -9,7 +9,9 @@ services:
     volumes:
       - ./src:/api/src
       - ./nodemon.json:/api/nodemon.json
-    container_name: api
+    container_name: api_dev
+    environment:
+        NODE_ENV: dev
     expose:
       - '3000'
     ports: 

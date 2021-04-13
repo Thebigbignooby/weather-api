@@ -26,7 +26,7 @@ router.post('/signup', async (req, res) => {
       lastName
     })
 
-    res.json(user)
+    res.status(201).json({ message: 'success' })
   } catch (e) {
     console.error(e)
     res

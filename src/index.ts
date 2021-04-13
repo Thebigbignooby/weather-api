@@ -24,3 +24,5 @@ app.listen(3000, () => {
 });
 
 connectDB()
+
+export { app }

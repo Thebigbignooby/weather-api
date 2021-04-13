@@ -11,7 +11,39 @@
 
 Instructions to install and run the project.
 
-Todo...
+This project requires Docker
+
+### Initialise
+
+```
+./scripts/init.sh
+```
+
+### Development
+
+```
+./scripts/up.sh
+```
+
+### Testing
+
+```
+npm run test:with-docker
+```
+
+### Stop containers
+
+```
+./scripts/down.sh
+```
+
+These scripts are simple but could potentially evolve over time.
+
+### VS Code Extensions
+
+- REST Client
+  - used for the `./requests/` folder
+  - allows you to execute queries against your running api, good replacement for postman
 
 ## Why: motivation
 
@@ -126,12 +158,6 @@ I typed `nodemon` instead of `node` ...
 
 ### Log: 2
 
-When trying to build the node.js docker image, the build failed.
-
-I hadn't started Docker -_-
-
-### Log: 3
-
 Running `docker-compose up` gave me an error instead of a running api :(
 
 ```sh
@@ -162,7 +188,9 @@ To this
       - ./src:/wefox/api/src
 ```
 
-### Log: 4
+time lost: approx 20-30 minutes
+
+### Log: 3
 
 I noticed my server wasn't restarting when I edited files.
 
@@ -175,7 +203,7 @@ My `package.json` file now looks like this:
     "dev-with-docker": "nodemon -L src/index.ts",
 ```
 
-### Log: 5
+### Log: 4
 
 I was going to use Mongoose, but I just discovered Typegoose, so I think I will give that a try.
 
@@ -198,7 +226,7 @@ to
 const DB_CONNECTION_STRING = `mongodb://mongo:27017/${DB_ENV}` 
 ```
 
-### Log: 6
+### Log: 5
 
 Scratching my head about how to handle the test environment, especially relating to my setup with Docker.
 
@@ -219,3 +247,63 @@ I wonder if there's a way to swap them without restarting the containers...
 Usually, I use a .env file and then manage environnment variables manually on a managed hosting service like heroku.
 I'm not certain of the best way to do this when using containers. I have come accross the notion of Docker Secrets but would need more time to explore this solution.
 Right now, I'm eager to get on with actual development, so i'll pause the project setup for now and make do with just using "dev".
+
+### Log: 6
+
+I gave another crack at setting up a test env with docker and eventually succeeded, using a combination of an extra target in my `Dockerfile`, a `docker-compose.test.yml` file and an extra script in my `/scripts` folder.
+
+I then lost quite a bit of time fighting with mongodb typescript typings in my test file, only to realise I was importing the types from `@types/mongodb` instead of `mongodb`... hashtag facepalm!
+
+Finally, I fell upon this supertest library which looks promising but makes me question my docker testing setup. 
+
+### Log: 7
+
+I was pulling my hair out for a little over an hour because I was not getting my user from the database in my test file despite clearly seeing it being created in mongo-express.
+
+I initially thought it had something to do with the connection string which was wrong since the database was in a container, but I was able to connect to it without any problem from MongoDB Compass.
+
+Eventually, on a hunch, I inspected the running processes on my PC, and lo and behold: I had a MongoDB process running in the background.
+
+So, somehow, both that process and the mongodb docker container were exposed on `localhost:27017`. MongoDB Compass was connecting to the database running inside the container, whereas the MongoClient in my test file was connecting to the database running outside my container.
+
+Killing the running process solved the problem: I now had access to my user from my test file!
+
+### Log: 8
+
+I now have my environnment up and running:
+
+- development server with live reload inside docker
+- access to containerised mongodb with script for first-time setup (usefull when doing a fresh install for new contributors for example)
+- tests work with typescript
+
+The fun part can begin, actual development! However, by challenging myself to using docker beyond the requirements, in addition to using TypeScript for the first time, I spent much more time than expected just to get things off the ground.
+
+I simply don't have the time to do more, even though I think the hardest is behind me.
+
+The rest looks pretty straightforward, though I think a credit card is required to enable usage of the GoogleMapsGeocoding API, so maybe I wouldn't have been able to go beyond that in practical terms. (I have only a debit card at the moment).
+
+## Closing thoughts
+
+These are things I have done for the first time while doing this test:
+
+- Docker
+  - setting up an environment
+  - server restart on file change in dev mode
+  - linking multiple images together in the same network
+- Mongodb
+  - using a setup script
+- TypeScript
+  - using TypeScript
+  - extending library types
+  - using Typegoose as ORM and Model Types generator
+- Swagger
+  - using Stoplight
+  - endpoint definition file
+- Authentication
+  - in the past I have used services like AuthO, and in a different life I had used sessions with PHP. I realised in doing this exercise this was the first time I implemented auth myself in Node.js.
+
+In the time it took me to wire all this together, I would probably have finished implementing all endpoints and tests had I decided not to use Docker nor TypeScript. Except perhaps for the cache functionnality: I have never done this, but my first reflex would be to link into Reddis.
+
+I'm a little disappointed I'm handing this in unfinished, but glad I chose to challenge myself with Docker and TypeScript, as this will certainly serve me in the future.
+
+I haven't taken the time to clean things up

@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  api:
+    container_name: api_test
+    build:
+      target: test
+    environment:
+      NODE_ENV: test
+    command: npm run dev-with-docker-2

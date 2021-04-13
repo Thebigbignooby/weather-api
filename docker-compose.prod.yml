@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   api:
+    container_name: api_prod
     build:
       target: production
     command: node build/index.js

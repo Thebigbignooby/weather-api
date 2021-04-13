@@ -1,7 +1,7 @@
 import { connect } from 'mongoose'
 
-// TODO: move this DB_ENV to .env or package.json scripts
-const DB_ENV = 'dev'
+// TODO: move this DB_ENV to .env or package.json scripts or something
+const DB_ENV = process.env.NODE_ENV
 const DB_CONNECTION_STRING = `mongodb://mongo:27017/${DB_ENV}` 
 
 export function connectDB () :void {
